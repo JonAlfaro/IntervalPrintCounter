@@ -3,15 +3,13 @@ import Ajv, { JSONSchemaType } from 'ajv';
 import expressWs from 'express-ws';
 import { buildFibCache, isFib } from './fib';
 
-console.log('Building Fibonacci');
+console.log('Building Fibonacci Cache to 1000 places');
 buildFibCache(1000);
 
 const app = expressWs(express()).app;
 const ajv = new Ajv();
-const port = 4200;
-
-// https://stackoverflow.com/questions/23437476/in-typescript-how-to-check-if-a-string-is-numeric
-// https://www.split.io/blog/node-js-typescript-express-tutorial/
+const PORT = process.env.PORT || 3000;
+console.log("PORT was configured to ", PORT)
 
 interface Response {
   message?: string;
@@ -33,6 +31,7 @@ interface CounterMessageRequest {
   action: string;
 }
 
+// counterMessageRequestSchema - JSON Schema used for request validation
 const counterMessageRequestSchema: JSONSchemaType<CounterMessageRequest> = {
   type: 'object',
   properties: {
@@ -58,7 +57,7 @@ const counterMessageRequestSchema: JSONSchemaType<CounterMessageRequest> = {
 };
 
 app.ws('/counter', function (ws, req) {
-  console.log('NEWW !!!');
+  console.log("New Connection Established")
   let trackedCounters: TrackedCounter[] = [];
   const counterMessageRequestValidate = ajv.compile(
     counterMessageRequestSchema,
@@ -67,7 +66,6 @@ app.ws('/counter', function (ws, req) {
   // Validate INTERVAL is set in the header
   const interval = Number(req.query['interval']);
   if (isNaN(interval)) {
-    console.log('HELLO!??');
     const resp: Response = {
       errors: ["Query - 'interval' required. Must be a number(s)"],
     };
@@ -75,6 +73,8 @@ app.ws('/counter', function (ws, req) {
     return;
   }
 
+  //  startTimer - Return a setInterval that sends tracked numbers 
+  //  to the client on the configured INTERVAL(s)
   function startTimer() {
     return setInterval(() => {
       trackedCounters.sort(function (a, b) {
@@ -98,6 +98,7 @@ app.ws('/counter', function (ws, req) {
     }, interval * 1000);
   }
 
+  // init startTimer on new connection
   let intervalID = startTimer();
 
   ws.on('message', function (msg) {
@@ -115,6 +116,7 @@ app.ws('/counter', function (ws, req) {
 
     // Validate Request Body
     if (counterMessageRequestValidate(parsed)) {
+      // Select action to peform
       switch (parsed.action) {
         case 'ADD':
           const idx = trackedCounters.findIndex(
@@ -127,7 +129,7 @@ app.ws('/counter', function (ws, req) {
           }
 
           if (isFib(parsed.number)) {
-            resp.message = 'FIB!!!';
+            resp.message = 'FIB';
           }
           break;
         case 'HALT':
@@ -157,10 +159,11 @@ app.ws('/counter', function (ws, req) {
   });
 
   ws.on('close', function () {
+    console.log("Connection Ended")
     clearTimeout(intervalID);
   });
 });
 
-app.listen(port, () => {
-  console.log(`Starting server listening on port: ${port}`);
+app.listen(PORT, () => {
+  console.log(`Starting server listening on port: ${PORT}`);
 });

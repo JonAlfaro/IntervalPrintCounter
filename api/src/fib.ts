@@ -22,7 +22,3 @@ export function isFib(n) {
 
   return false;
 }
-
-console.log(fibCache);
-
-console.log(Object.keys(fibCache).length);
