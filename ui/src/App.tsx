@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import {Box, Typography, Link, ThemeProvider} from '@mui/material'
+import appTheme from "./themes/appTheme"
 
-function App() {
+const githubUrl = ''
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={appTheme}>
+      <div className="app">
+        <Box maxWidth={600} marginTop={10}>
+          <Box>
+            <Typography variant="h3" fontWeight='bold' color='primary' display="inline" gutterBottom>Interval Print Counter</Typography>
+          </Box>
+          <Box marginTop={4} paddingX={4}>
+            <Typography color='secondary' align='justify'>
+              TODO
+            </Typography>
+          </Box>
+          <Box className="glass" marginTop={4} paddingX={4} style={{minHeight: "90px"}}>
+          </Box>
+        </Box>
+      </div>
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
