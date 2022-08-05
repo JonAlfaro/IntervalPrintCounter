@@ -169,6 +169,9 @@ app.ws('/counter', function (ws, req) {
   });
 });
 
+export const server = app;
+
 app.listen(PORT, () => {
   console.log(`Starting server listening on port: ${PORT}`);
 });
+

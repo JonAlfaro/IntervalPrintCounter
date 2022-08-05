@@ -1,6 +1,6 @@
 const fibonacci = require('fibonacci');
 
-const fibCache = {};
+export const fibCache = {};
 
 // Builds a dictionary of fibonacci sequence numbers up to the specified places
 export function buildFibCache(places) {
