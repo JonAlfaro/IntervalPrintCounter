@@ -16,11 +16,6 @@ interface Response {
   errors?: string[];
 }
 
-interface CounterResponse {
-  number: number;
-  count: string;
-}
-
 interface TrackedCounter {
   number: number;
   count: number;
@@ -138,9 +133,11 @@ app.ws('/counter', function (ws, req) {
           }
           break;
         case 'HALT':
+          resp.message = "Timer halted"
           clearTimeout(intervalID);
           break;
         case 'RESUME':
+          resp.message = "Timer resumed"
           intervalID = startTimer();
           break;
         case 'TERMINATE':
