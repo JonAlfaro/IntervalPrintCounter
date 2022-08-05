@@ -25,7 +25,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: api
-          file: api/Dockerfile
+          context: "{{defaultContext}}:api"
+          file: "{{defaultContext}}:api/Dockerfile"
           push: true
           tags: user/app:latest
