@@ -8,7 +8,7 @@ buildFibCache(1000);
 
 const app = expressWs(express()).app;
 const ajv = new Ajv();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4040;
 console.log("PORT was configured to ", PORT)
 
 interface Response {
@@ -71,6 +71,11 @@ app.ws('/counter', function (ws, req) {
     };
     ws.close(1007, JSON.stringify(resp));
     return;
+  } else if (interval <= 0) {
+    const resp: Response = {
+      errors: ["Query - 'interval' must be greater than zero"],
+    };
+    ws.close(1007, JSON.stringify(resp))
   }
 
   //  startTimer - Return a setInterval that sends tracked numbers 
@@ -125,7 +130,7 @@ app.ws('/counter', function (ws, req) {
           if (idx >= 0) {
             trackedCounters[idx].count++;
           } else {
-            trackedCounters.push({ count: 0, number: parsed.number });
+            trackedCounters.push({ count: 1, number: parsed.number });
           }
 
           if (isFib(parsed.number)) {
@@ -139,7 +144,10 @@ app.ws('/counter', function (ws, req) {
           intervalID = startTimer();
           break;
         case 'TERMINATE':
-          ws.close();
+          const closeReason: Response = {
+            message: 'Thanks for player, connection terminated by client',
+          };
+          ws.close(1000, JSON.stringify(closeReason));
           break;
         default:
           break;
