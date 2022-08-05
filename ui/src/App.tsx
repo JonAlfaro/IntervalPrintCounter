@@ -68,7 +68,7 @@ const App = () => {
                   {paused ? "Resume" : "Halt"}
                 </Button>
                 <Button variant="contained" fullWidth disabled={!connected} onClick={() => { terminateTimer(); setPaused(false) }}>
-                  Terminate
+                  Quit
                 </Button>
               </Stack>
             </Stack>
