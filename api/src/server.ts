@@ -33,7 +33,7 @@ const counterMessageRequestSchema: JSONSchemaType<CounterMessageRequest> = {
     number: { type: 'integer' },
     action: {
       type: 'string',
-      enum: ['ADD', 'HALT', 'RESUME', 'TERMINATE'],
+      enum: ['ADD', 'HALT', 'RESUME', 'QUIT'],
     },
   },
   required: ['action'],
@@ -140,7 +140,7 @@ app.ws('/counter', function (ws, req) {
           resp.message = "Timer resumed"
           intervalID = startTimer();
           break;
-        case 'TERMINATE':
+        case 'QUIT':
           const closeReason: Response = {
             message: 'Thanks for player, connection terminated by client',
           };

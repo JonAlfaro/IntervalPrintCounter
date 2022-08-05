@@ -99,7 +99,7 @@ export default function useIntervalCounter() {
 
   const terminateTimer = useCallback(() => {
     socket?.send(JSON.stringify({
-      action: "TERMINATE",
+      action: "QUIT",
     }))
   }, [socket])
 

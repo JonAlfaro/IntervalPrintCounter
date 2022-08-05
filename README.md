@@ -8,7 +8,7 @@ Below are more details on each individual project and how to run them.
 ### 1.0) api
 Inside the `api` directory, there is an Express API server with a single WebSocket route. It handles all of the interval timing logic; accepting messages from clients to increment counters, while also pushing tracked counters at the desired interval.
 
-API Documentation can be found [here](api\README.md)
+API Documentation and testing can be found [here](api\README.md)
 
 ### 1.1) Configuration
 | Type                 | Key  | Default | Description                   |

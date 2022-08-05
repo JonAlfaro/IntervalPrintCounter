@@ -186,9 +186,9 @@ var rootCmd = &cobra.Command{
 							req = counterMsgRequest{
 								Action: "RESUME",
 							}
-						} else if userInput == "terminate" {
+						} else if userInput == "quit" {
 							req = counterMsgRequest{
-								Action: "TERMINATE",
+								Action: "QUIT",
 							}
 						} else if v, err := strconv.Atoi(userInput); err == nil {
 							req = counterMsgRequest{
