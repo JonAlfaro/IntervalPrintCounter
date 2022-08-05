@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
-import { Box, Typography, Link, ThemeProvider, Stack, TextField, Button, InputAdornment, OutlinedInput, IconButton, ListItem, List, ListItemText } from '@mui/material'
+import { Box, Typography, Link, ThemeProvider, Stack, TextField, Button, InputAdornment, OutlinedInput, IconButton, ListItem, List, ListItemText, Alert } from '@mui/material'
 import appTheme from "./themes/appTheme"
 import { Send } from '@mui/icons-material'
+import useIntervalCounter from 'hooks/UseIntervalCounter'
+import MessageBox from 'components/MessageBox'
+import NumberInput from 'components/NumberInput'
+import useNumberState from 'hooks/UseNumberState'
 
 const App = () => {
+  const [intervalValue, setIntervalValue] = useNumberState(4)
+  const [paused, setPaused] = useState(false)
+  const { err, clearErr, connected, messages, startConnection, terminateTimer, sendNumber, haltTimer, resumeTimer } = useIntervalCounter()
+
   return (
     <ThemeProvider theme={appTheme}>
       <div className="app">
-        <Box maxWidth={800} marginTop={10}>
+        <Box maxWidth={800} marginTop={5}>
           <Box>
             <Typography variant="h3" fontWeight='bold' color='primary' display="inline" gutterBottom>Interval Print Counter</Typography>
           </Box>
@@ -17,6 +25,13 @@ const App = () => {
               A simple counter that tracks number inputted and prints results in a defiend interval.
             </Typography>
           </Box>
+          {
+            err ?
+              <Box marginTop={4}>
+                <Alert severity="error" onClose={() => { clearErr() }}>{err && err.length > 0 ? `Errors: ${err.join(", ")}` : ""}</Alert>
+              </Box> :
+              <></>
+          }
           <Box className="glass" marginTop={4} padding={2}>
             <Stack direction="column" spacing={2}>
               <Typography color='secondary' align='justify'>
@@ -24,44 +39,37 @@ const App = () => {
               </Typography>
               <TextField
                 label="Interval"
+                disabled={connected}
+                value={intervalValue}
+                onChange={(e) => { setIntervalValue(e.target.value) }}
                 helperText="How often to print counters in seconds"
-                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
-              <Button variant="contained" >
-                Connect
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ inputMode: 'numeric', pattern: '[1-9]*' }} />
+              <Button variant="contained" onClick={() => { startConnection(intervalValue) }} disabled={connected}>
+                {connected ? "Connected" : "Connect"}
               </Button>
             </Stack>
           </Box>
           <Box className="glass" marginTop={4} padding={2}>
             <Stack direction="column" spacing={2}>
-              <Typography variant="h6" fontWeight='bold' color='secondary' align='left'>
-                Messages - Not Connected
+              <Typography variant="h6" fontWeight='bold' color={connected ? "primary" : "secondary"} align='left'>
+                Messages - {connected ? "Connected" : "Not Connected"} {paused ? "PAUSED" : ""}
               </Typography>
-              <List>
-                <ListItem disablePadding>
-                  <ListItemText primary="Message" />
-                </ListItem>
-              </List>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                endAdornment={<InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    edge="end"
-                  ><Send /></IconButton>
-                </InputAdornment>}
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{
-                  'aria-label': 'weight',
-                }}
-              />
+              <MessageBox messages={messages} sendNumber={sendNumber} disabled={!connected} />
               <Stack direction="row" spacing={2}>
-                <Button variant="contained" fullWidth>
-                  Send
+
+                <Button variant="contained" fullWidth disabled={!connected} onClick={() => {
+                  if (paused) {
+                    resumeTimer()
+                    setPaused(false)
+                  } else {
+                    haltTimer()
+                    setPaused(true)
+                  }
+                }}>
+                  {paused ? "Resume" : "Halt"}
                 </Button>
-                <Button variant="contained" fullWidth >
-                  Halt
-                </Button>
-                <Button variant="contained" fullWidth>
+                <Button variant="contained" fullWidth disabled={!connected} onClick={() => { terminateTimer(); setPaused(false) }}>
                   Terminate
                 </Button>
               </Stack>
