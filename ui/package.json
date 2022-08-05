@@ -2,7 +2,7 @@
   "name": "interval-print-counter",
   "version": "0.1.0",
   "private": false,
-  "homepage": "",
+  "homepage": "https://jonalfaro.github.io/IntervalPrintCounter",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
