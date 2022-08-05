@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import { w3cwebsocket as W3CWebSocket } from "websocket"
 
 // Load API address server from Env
-const INTERVAL_API_ADDR = process.env.INTERVAL_API_ADDR || "ws://192.53.169.109:4040/counter"
+const INTERVAL_API_ADDR = process.env.INTERVAL_API_ADDR || "ws://192.53.169.109:4040"
 
 export interface useIntervalCounterArgs {
   interval: number
@@ -29,7 +29,7 @@ export default function useIntervalCounter() {
   }, [socket])
 
   const startConnection = useCallback((interval: number) => {
-    const client = new W3CWebSocket(`${INTERVAL_API_ADDR}?interval=${interval}`)
+    const client = new W3CWebSocket(`${INTERVAL_API_ADDR}/counter?interval=${interval}`)
     client.onopen = () => {
       setConnected(true)
     }

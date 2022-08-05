@@ -1,12 +1,10 @@
+import { Alert, Box, Button, Stack, TextField, ThemeProvider, Typography } from '@mui/material'
+import MessageBox from 'components/MessageBox'
+import useIntervalCounter from 'hooks/UseIntervalCounter'
+import useNumberState from 'hooks/UseNumberState'
 import React, { useState } from 'react'
 import './App.css'
-import { Box, Typography, Link, ThemeProvider, Stack, TextField, Button, InputAdornment, OutlinedInput, IconButton, ListItem, List, ListItemText, Alert } from '@mui/material'
 import appTheme from "./themes/appTheme"
-import { Send } from '@mui/icons-material'
-import useIntervalCounter from 'hooks/UseIntervalCounter'
-import MessageBox from 'components/MessageBox'
-import NumberInput from 'components/NumberInput'
-import useNumberState from 'hooks/UseNumberState'
 
 const App = () => {
   const [intervalValue, setIntervalValue] = useNumberState(4)

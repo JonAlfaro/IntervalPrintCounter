@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Send } from '@mui/icons-material'
 import { IconButton, InputAdornment, List, ListItem, ListItemText, OutlinedInput, Tooltip } from '@mui/material'
 import useNumberState from 'hooks/UseNumberState'
