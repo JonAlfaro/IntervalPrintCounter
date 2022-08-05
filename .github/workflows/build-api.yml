@@ -26,6 +26,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: "{{defaultContext}}:api"
-          file: "{{defaultContext}}:api/Dockerfile"
           push: true
-          tags: user/app:latest
+          tags: jkizo/interval-ws-server:latest
