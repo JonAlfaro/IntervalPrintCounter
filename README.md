@@ -16,7 +16,7 @@ API Documentation can be found [here](api\README.md)
 | Environment Variable | PORT | 4040    | PORT that api will listen on. |
 
 ### 1.2) Using Public API
-There is a free instance of this api running at [ws://192.53.169.109:4040](ws://192.53.169.109:4040) that uses the latest built api [Docker image](https://hub.docker.com/r/jkizo/interval-ws-server). **Please Note:** This API is insecure, and not production ready, it is hosted for convenience during development. For this to be production ready it would require TSL as most browsers will not allow insecure web socket connection.
+There is a free instance of this api running at `ws://192.53.169.109:4040` that uses the latest built api [Docker image](https://hub.docker.com/r/jkizo/interval-ws-server). **Please Note:** This API is insecure, and not production ready, it is hosted for convenience during development. For this to be production ready it would require TSL as most browsers will not allow insecure web socket connection.
 
 ### 1.3) Running with NodeJS
 Running the server with default config:
@@ -72,7 +72,7 @@ INTERVAL_API_ADDR="ws://localhost:8080" npm run start
 
 ## 3.0) cli
 
-A CLI executable that communicates with the Interval API server. There are no sub-commands, but there is a help flag
+A CLI executable that communicates with the Interval API server. There are no sub-commands, but there is a `--help` flag
 ```sh
 $ countercli --help
 
@@ -97,7 +97,7 @@ Flags:
 | Type                 | Key               | Default | Description                                     |
 |----------------------|-------------------|---------|-------------------------------------------------|
 | CLI Flag | addr | ws://192.53.169.109:4040 | Target Interval API server to communicate with. |
-| Arugment | INTERVAL | `none` | Interval the server should send messages back to the client in seconds. Must be greater than 0  |
+| Argument | INTERVAL | `none` | Interval the server should send messages back to the client in seconds. Must be greater than 0  |
 
 ### 3.2) Running with prebuilt executable
 You can download the latest prebuilt CLI binaries [here](https://github.com/JonAlfaro/IntervalPrintCounter/releases/latest).
